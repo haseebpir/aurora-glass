@@ -1,0 +1,6 @@
+/* Global styles for the skin, loaded only in the preview. */
+
+/* Aurora Glass type: Inter for everything — a single, quiet grotesque with
+   tabular figures available for the time display. The stack falls back to the
+   system UI font so the layout holds if the webfont fails. */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");

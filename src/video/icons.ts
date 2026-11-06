@@ -1,7 +1,7 @@
 /**
  * Aurora Glass icon set.
  *
- * Clean, rounded line icons on a 24×24 grid: a single 1.8-weight stroke in
+ * Clean, rounded line icons on a 24×24 grid: a single 2-weight stroke in
  * `currentColor` with round caps and joins, matching the format the Scaffold
  * icons use. Registered over the Scaffold family so every
  * `<media-icon family="scaffold">` in the skin markup renders the Aurora
@@ -10,7 +10,7 @@
  */
 
 const line = (body: string): string =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" viewBox="0 0 24 24">${body}</svg>`;
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" viewBox="0 0 24 24">${body}</svg>`;
 
 const filled = (body: string): string =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" aria-hidden="true" viewBox="0 0 24 24">${body}</svg>`;

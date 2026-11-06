@@ -29,23 +29,29 @@ Mux) — no placeholder media. Change the preview media in
 ## The design system
 
 - **Frosted glass everywhere** — the deck is a dark-tinted glass at 62%
-  opacity (`rgb(12 15 27 / 0.62)`), menus and popovers use a stronger 80%
-  tint, all with `backdrop-filter: blur(20–22px) saturate(1.5)`, a 1px
-  hairline stroke (`rgb(255 255 255 / 0.14)`) and soft diffused shadows.
-  The tint is deliberately high-opacity so text stays readable over
-  bright footage.
-- **Floating pill deck** — the control bar is detached from the player's
-  edges (12px inset) with a 20px radius; panels and menus sit at 16–20px
-  radii throughout. Nothing touches the frame.
+  opacity (`rgb(12 15 27 / 0.62)`); the deck and the centre play button
+  use a deeper optical glass, `blur(28px) saturate(1.85) brightness(0.95)`,
+  while menus and popovers use a stronger 80% tint at `blur(22px)`,
+  all with a 1px hairline stroke (`rgb(255 255 255 / 0.14)`) and soft
+  diffused shadows. The tint is deliberately high-opacity so text stays
+  readable over bright footage.
+- **Floating pill deck** — the control bar is a centred pill at 56% of
+  the player width (near-full width on small players), one row tall at
+  62px with a 28px radius and a specular rim — a bright hairline along
+  its top edge, so it reads as coated glass. The seek slider rides the
+  pill's top rim instead of taking a row of its own. Nothing touches
+  the frame.
 - **One gradient, spent carefully** — the aurora gradient
   (`linear-gradient(90deg, #7C5CFF → #33CCFF 52% → #3DFFAA)`) appears
   only on the seek fill, the vertical volume fill and the buffering
   spinner. It drifts slowly (8s ease-in-out) and only when the user
   allows motion. Solid cyan `#33CCFF` carries focus rings and active
   states.
-- **Type:** *Inter* throughout, with tabular figures for the time readout
-  so the clock never jitters.
-- **Icons:** 24 rounded stroke-style glyphs on a 24×24 grid (1.8-weight
+- **Type:** *Inter* throughout; the time readout is 13px/500 with
+  line-height 1 and tabular figures, so the clock never jitters.
+  Spacing follows a strict 4/8/12/16 rhythm throughout the deck, menus
+  and tooltips.
+- **Icons:** 24 rounded stroke-style glyphs on a 24×24 grid (2-weight
   stroke, round caps and joins) in `src/video/icons.ts`, with soft filled
   play/pause and a gradient-ring spinner.
 - **Light scheme** — pale glass (`rgb(250 251 255 / 0.66)`) with ink text
@@ -88,10 +94,21 @@ Mux) — no placeholder media. Change the preview media in
 
 ## Explored directions
 
-Two alternate concepts were fully prototyped before Aurora Glass was
-chosen: a retro pixel-arcade skin (segmented XP-bar seek bar, pixel icon
-set) and an editorial cinema skin (serif title cards, hairline rules).
-Aurora Glass won on restraint — one idea, executed consistently.
+Three glass directions were fully prototyped for this challenge:
+Aurora Glass itself, an Apple TV+-style floating capsule, and a
+Video.js v10 "Frosted" study in the platform's own design language.
+Reviewing them side by side, they read as one family — so instead of
+splitting the glass vote three ways, the strongest ideas of the other
+two were merged into Aurora Glass: the capsule's deeper optical glass
+(blur 28px with a brightness step, for calmer, larger glyph presence)
+and the Frosted study's token discipline (strict 4/8/12/16 spacing,
+13px tabular time, and a focus halo that fades in rather than popping).
+**Aurora Glass is the consolidated glass entry.**
+
+Two non-glass concepts were also prototyped: a retro pixel-arcade skin
+(segmented XP-bar seek bar, pixel icon set) and an editorial cinema
+skin (serif title cards, hairline rules). They remain separate
+directions in the same Figma file.
 
 ## Project structure
 

@@ -1977,7 +1977,7 @@
       --ag-glass: rgb(12 15 27 / 0.62);
       --ag-glass-strong: rgb(12 15 27 / 0.8);
       --ag-stroke: rgb(255 255 255 / 0.14);
-      --ag-highlight: rgb(255 255 255 / 0.13);
+      --ag-highlight: rgb(255 255 255 / 0.1);
       --ag-track: rgb(255 255 255 / 0.22);
       --ag-buffer: rgb(255 255 255 / 0.34);
       --ag-shadow: 0 18px 50px rgb(2 4 12 / 0.45), 0 4px 16px rgb(2 4 12 / 0.28);
@@ -2017,7 +2017,7 @@
         --ag-glass: rgb(250 251 255 / 0.66);
         --ag-glass-strong: rgb(250 251 255 / 0.86);
         --ag-stroke: rgb(23 28 66 / 0.12);
-        --ag-highlight: rgb(23 28 66 / 0.08);
+        --ag-highlight: rgb(23 28 66 / 0.06);
         --ag-track: rgb(23 28 66 / 0.16);
         --ag-buffer: rgb(23 28 66 / 0.24);
         --ag-shadow: 0 18px 50px rgb(31 38 90 / 0.2), 0 4px 16px rgb(31 38 90 / 0.12);
@@ -2041,7 +2041,7 @@
       --ag-glass: rgb(250 251 255 / 0.66);
       --ag-glass-strong: rgb(250 251 255 / 0.86);
       --ag-stroke: rgb(23 28 66 / 0.12);
-      --ag-highlight: rgb(23 28 66 / 0.08);
+      --ag-highlight: rgb(23 28 66 / 0.06);
       --ag-track: rgb(23 28 66 / 0.16);
       --ag-buffer: rgb(23 28 66 / 0.24);
       --ag-shadow: 0 18px 50px rgb(31 38 90 / 0.2), 0 4px 16px rgb(31 38 90 / 0.12);
@@ -2066,7 +2066,7 @@
       --ag-glass: rgb(12 15 27 / 0.62);
       --ag-glass-strong: rgb(12 15 27 / 0.8);
       --ag-stroke: rgb(255 255 255 / 0.14);
-      --ag-highlight: rgb(255 255 255 / 0.13);
+      --ag-highlight: rgb(255 255 255 / 0.1);
       --ag-track: rgb(255 255 255 / 0.22);
       --ag-buffer: rgb(255 255 255 / 0.34);
       --ag-shadow: 0 18px 50px rgb(2 4 12 / 0.45), 0 4px 16px rgb(2 4 12 / 0.28);
@@ -2141,7 +2141,7 @@
     }
 
     .media-button:active {
-      transform: scale(0.92);
+      transform: scale(0.96);
     }
 
     .media-button:focus-visible {
@@ -2226,6 +2226,12 @@
     .video-controls-center-play {
       width: calc(var(--media-spacing) * 18) !important;
       height: calc(var(--media-spacing) * 18) !important;
+      /* The one accent glow in the skin: a soft aurora halo behind the
+         centre play button, and nowhere else. */
+      box-shadow:
+        var(--ag-shadow),
+        0 0 48px rgb(51 204 255 / 0.32),
+        0 0 20px rgb(124 92 255 / 0.22);
       transition: transform 0.22s ease, background-color 0.22s ease;
     }
 
@@ -2253,17 +2259,38 @@
     /* ---- Bottom: the floating pill deck ------------------------------------- */
 
     .video-controls-bottom {
-      inset-inline: calc(var(--media-spacing) * 3);
+      /* One low, slim pill. Centred at ~56% of the player width (the
+         full-width bar read as heavy), and a single row tall: the seek
+         slider no longer takes a row of its own — it rides the pill's top
+         rim (see .video-controls-slider-row below). The height is the floor
+         set by the 44px touch targets plus 8px of breathing room above and
+         below them. Below 40rem the plate opens back out to near-full
+         width (see the container query in the responsive section). */
+      inset-inline: 0;
+      width: min(56%, calc(100% - calc(var(--media-spacing) * 6)));
+      margin-inline: auto;
       bottom: calc(var(--media-spacing) * 3);
-      border-radius: 20px;
+      border-radius: 28px;
       background-color: var(--ag-glass);
       -webkit-backdrop-filter: blur(20px) saturate(1.5);
       backdrop-filter: blur(20px) saturate(1.5);
       border: 1px solid var(--ag-stroke);
       box-shadow: var(--ag-shadow);
-      padding: calc(var(--media-spacing) * 2) calc(var(--media-spacing) * 3.5)
-        calc(var(--media-spacing) * 2.5);
+      padding: calc(var(--media-spacing) * 2) calc(var(--media-spacing) * 3);
       gap: var(--media-spacing);
+    }
+
+    /* The seek row leaves the flow and rides the pill's top rim: its 16px
+       grab strip is centred on the rim line, so the gradient track reads as
+       the pill's glowing top edge. The strip ends level with the deck's
+       inner padding, and it clears the button row (buttons start 9px into
+       the deck; the strip reaches 8px). */
+    .video-controls-slider-row {
+      position: absolute;
+      top: 0;
+      inset-inline: calc(var(--media-spacing) * 3);
+      width: auto;
+      transform: translateY(-50%);
     }
 
     /* The deck (and top bar and centre) stay visible while keyboard focus is
@@ -2283,13 +2310,26 @@
 
     /* ---- Timeline: the aurora gradient fill ---------------------------------- */
 
+    /* The slider's grab strip is 16px; the visual track inside it is a 4px
+       line that swells to 6px while the user is on it. */
     .media-time-slider {
-      height: calc(var(--media-spacing) * 6);
+      height: calc(var(--media-spacing) * 4);
     }
 
     .media-time-slider-track {
-      height: calc(var(--media-spacing) * 1.5);
+      height: calc(var(--media-spacing) * 1);
       border-radius: 999px;
+      transition: height 0.18s ease;
+    }
+
+    @scope (.media-time-slider) {
+      &:hover .media-time-slider-track,
+      &:focus-visible .media-time-slider-track,
+      &:has(:focus-visible) .media-time-slider-track,
+      &[data-pointing] .media-time-slider-track,
+      &[data-dragging] .media-time-slider-track {
+        height: calc(var(--media-spacing) * 1.5);
+      }
     }
 
     .media-time-slider-track:before {
@@ -2326,6 +2366,11 @@
       border-radius: 999px;
     }
 
+    /* The thumb rests hidden — the gradient line alone marks the position —
+       and materialises when the user reaches for the slider. Touch devices
+       have no hover, so there it simply stays visible. The reveal uses the
+       standalone `scale` property so the base's translateX(-50%) centring
+       is untouched. */
     .media-time-slider-thumb {
       width: calc(var(--media-spacing) * 3.5);
       height: calc(var(--media-spacing) * 3.5);
@@ -2333,6 +2378,27 @@
       border: none;
       border-radius: 999px;
       box-shadow: 0 2px 10px rgb(2 4 12 / 0.45);
+      opacity: 0;
+      scale: 0.6;
+      transition: opacity 0.18s ease, scale 0.18s ease;
+    }
+
+    @scope (.media-time-slider) {
+      &:hover .media-time-slider-thumb,
+      &:focus-visible .media-time-slider-thumb,
+      &:has(:focus-visible) .media-time-slider-thumb,
+      &[data-pointing] .media-time-slider-thumb,
+      &[data-dragging] .media-time-slider-thumb {
+        opacity: 1;
+        scale: 1;
+      }
+    }
+
+    @media (hover: none) {
+      .media-time-slider-thumb {
+        opacity: 1;
+        scale: 1;
+      }
     }
 
     @scope (.media-time-slider) {
@@ -2408,6 +2474,8 @@
     .media-time-group {
       font-weight: 500;
       font-size: calc(var(--media-spacing) * 3.5);
+      /* Tabular figures: the readout never jitters as digits change. */
+      font-variant-numeric: tabular-nums;
     }
 
     .media-time-duration-value,
@@ -2571,6 +2639,17 @@
       outline-offset: -2.5px;
     }
 
+    /* Below 40rem the centred plate would starve the controls row, so it
+       opens back out to the floating near-full-width bar (12px gutters,
+       calc(100% - 24px)) — small players keep full-size, reachable controls. */
+    @container media-root (width < 40rem) {
+      .video-controls-bottom {
+        inset-inline: calc(var(--media-spacing) * 3);
+        width: auto;
+        margin-inline: 0;
+      }
+    }
+
     /* ---- Narrow players: secondary top-bar features step aside -------------------------------- */
 
     @container media-root (width < 30rem) {
@@ -2588,7 +2667,7 @@
       .video-controls-bottom {
         inset-inline: calc(var(--media-spacing) * 2);
         bottom: calc(var(--media-spacing) * 2);
-        border-radius: 16px;
+        border-radius: 24px;
         padding-inline: calc(var(--media-spacing) * 2.5);
       }
 
@@ -2648,6 +2727,14 @@
         background-color: highlight;
         border: 1px solid canvastext;
         box-shadow: none;
+        /* No hover-reveal in forced colors: the thumb is a state marker. */
+        opacity: 1;
+        scale: 1;
+      }
+
+      /* The resting track keeps its full weight in forced colors. */
+      .media-time-slider-track {
+        height: calc(var(--media-spacing) * 1.5);
       }
 
       .media-menu-item[data-highlighted],
